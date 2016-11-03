@@ -7,7 +7,7 @@ GET     /                           controllers.HomeController.index
 
 GET     /home                       controllers.LunchAppController.home
 
-GET     /landing                    controllers.HomePageController.landing
+GET     /landing                    controllers.HomePageController.land
 
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
