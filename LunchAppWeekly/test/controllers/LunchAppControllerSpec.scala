@@ -1,5 +1,5 @@
 
-package controllersSpec
+package controllers
 
 import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
 import play.api.mvc.Result
