@@ -18,12 +18,14 @@ object RealTimeGreeterService extends TimeGreetingService {
   }
 }
 
-@Singleton
-class HomePageController @Inject() extends Controller {
+trait HomePageController extends Controller {
 
-  val greeter = RealTimeGreeterService
-
+  def greeter : TimeGreetingService
   def land = Action {
     Ok(views.html.landing(greeter.greeting))
   }
+}
+
+object HomePageController extends HomePageController {
+  val greeter = RealTimeGreeterService
 }
