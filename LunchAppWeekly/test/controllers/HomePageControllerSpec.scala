@@ -19,14 +19,17 @@ class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
   }
 
   //can we somehow inject here?
-  object TestController extends HomePageController
-  val controller = TestController
+  val controller = HomePageController
 
 
   "HomePageController"  should {
 
-    "say morning " ignore {
-      val result = controller.land()(FakeRequest(GET, "foo"))
+    "say morning " in {
+      val morningController = new HomePageController {
+      val greeter = FakeMorningGreeter
+      }
+
+      val result = morningController.land()(FakeRequest(GET, "foo"))
       status(result) mustBe OK
       contentAsString(result) must include("Lunch?")
       contentAsString(result) must include("Morning")
