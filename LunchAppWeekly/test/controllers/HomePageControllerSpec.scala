@@ -21,7 +21,6 @@ class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
   //can we somehow inject here?
   val controller = HomePageController
 
-
   "HomePageController"  should {
 
     "say morning " in {
@@ -35,7 +34,20 @@ class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
       contentAsString(result) must include("Morning")
     }
 
-    "say afternoon " in  {
+    "say afternoon " in {
+      val morningController = new HomePageController {
+      val greeter = FakeAfternoonGreeter
+      }
+
+      val result = morningController.land()(FakeRequest(GET, "foo"))
+      status(result) mustBe OK
+      contentAsString(result) must include("Lunch?")
+      contentAsString(result) must include("Afternoon")
+    }
+
+    // We still have not tested the actual time based greeter....
+    // TODO think of how you might do this
+    "give a greeting based on the actual time" ignore  {
       val result = controller.land()(FakeRequest(GET, "foo"))
       status(result) mustBe OK
       contentAsString(result) must include("Lunch?")
