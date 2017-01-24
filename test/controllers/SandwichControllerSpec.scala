@@ -79,6 +79,34 @@ class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
       contentAsString(result) must include("Tasty Classic")
       contentAsString(result) must include("£1.99")
     }
+
+    "show a three sandwich descriptions and prices when there are three sandwichs " in {
+
+      val sandwich1 = Sandwich("Peas Pudding", "Tasty Classic", 1.99)
+      val sandwich2 = Sandwich("Ham", "Finest Norfolk Ham", 1.22)
+      val sandwich3 = Sandwich("Cheese", "With one grape", 99.99)
+      val sarnies = List(sandwich1,sandwich2,sandwich3)
+
+      val multiSandwichService = new MultiSandwichService (sarnies)
+      val multiSarnieController = new SandwichController {
+        val sandwichService = multiSandwichService
+      }
+      val result = multiSarnieController.sandwiches()(FakeRequest(GET, "foo"))
+      status(result) mustBe OK
+      contentAsString(result) must include("Are you hungry?")
+      contentAsString(result) must include("Please choose a sandwich")
+      contentAsString(result) must not include("Sorry, we don't have any sandwiches")
+
+      for (s <- sarnies){
+        contentAsString(result) must include(s.name)
+        contentAsString(result) must include(s.description)
+        contentAsString(result) must include("£"+s.price)
+      }
+    }
   }
+}
+
+class MultiSandwichService(sandwiches: List[Sandwich]) extends SandwichService {
+  override def availableSandwiches(): List[Sandwich] = sandwiches
 }
 
