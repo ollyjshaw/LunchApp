@@ -20,7 +20,7 @@ class HomePageControllerSpec extends PlaySpec with OneAppPerSuite {
 
     "say morning " in {
       val morningController = new HomePageController {
-      val greeter = FakeMorningGreeter
+        val greeter = FakeMorningGreeter
       }
 
       val result = morningController.land()(FakeRequest(GET, "foo"))
@@ -31,7 +31,7 @@ class HomePageControllerSpec extends PlaySpec with OneAppPerSuite {
 
     "say afternoon " in {
       val morningController = new HomePageController {
-      val greeter = FakeAfternoonGreeter
+        val greeter = FakeAfternoonGreeter
       }
 
       val result = morningController.land()(FakeRequest(GET, "foo"))
