@@ -1,24 +1,19 @@
 package controllers
 
-
-
 import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
 
-  //a fake for illustration
   object FakeMorningGreeter extends  TimeGreetingService {
     def greeting = "Morning"
   }
 
-  //a fake for illustration
   object FakeAfternoonGreeter extends TimeGreetingService {
     def greeting = "Afternoon"
   }
 
-  //can we somehow inject here?
   val controller = HomePageController
 
   "HomePageController"  should {
@@ -67,8 +62,6 @@ class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
       }
     }
 
-
-
     "not return 404" when {
       "I go to the route /landing" in {
         val result = route(app, FakeRequest(GET, "/landing"))
@@ -76,8 +69,4 @@ class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
       }
     }
   }
-
-
-
-
 }
