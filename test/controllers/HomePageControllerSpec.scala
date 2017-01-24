@@ -4,7 +4,7 @@ import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
-class HomePageControllerSpec  extends PlaySpec with OneAppPerSuite{
+class HomePageControllerSpec extends PlaySpec with OneAppPerSuite {
 
   object FakeMorningGreeter extends  TimeGreetingService {
     def greeting = "Morning"
