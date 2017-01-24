@@ -9,8 +9,6 @@ import scala.concurrent.Future
 
 class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
 
-  val controller = HomePageController
-
   "SandwichController" should {
 
     "render a page" when {
@@ -19,6 +17,13 @@ class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
         result.map(status(_)) mustBe Some(OK)
         val text: String = result.map(contentAsString(_)).get
       }
+    }
+
+    "show a title " in {
+      val controller = SandwichController
+      val result = controller.sandwiches()(FakeRequest(GET, "foo"))
+      status(result) mustBe OK
+      contentAsString(result) must include("Are you hungry?")
     }
   }
 }

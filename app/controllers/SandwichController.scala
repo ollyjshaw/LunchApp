@@ -5,6 +5,6 @@ import play.api.mvc.{Action, Controller}
 object SandwichController extends Controller {
 
   def sandwiches = Action {
-    Ok("foo")
+    Ok(views.html.sandwiches())
   }
 }
