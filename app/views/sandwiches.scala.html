@@ -1,5 +1,8 @@
 @(sandwiches: List[Sandwich])
 <p>Are you hungry?</p>
+
 @if(sandwiches.isEmpty){
   <p>Sorry, we don't have any sandwiches</p>
+} else {
+  <p>Please choose a sandwich</p>
 }
