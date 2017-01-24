@@ -1,3 +1,3 @@
 package models
 
-class Sandwich
+case class Sandwich(name:String, description:String, price:BigDecimal)

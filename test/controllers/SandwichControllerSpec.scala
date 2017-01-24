@@ -14,8 +14,14 @@ object NoSandwichService extends SandwichService {
 }
 
 object SomeSandwichService extends SandwichService {
-  override def availableSandwiches(): List[Sandwich] = List(new Sandwich)
+  override def availableSandwiches(): List[Sandwich] = List(Sandwich("foo", "bar", 99.99))
 }
+
+object OneSandwichService extends SandwichService {
+  val sandwich = Sandwich("Peas Pudding", "Tasty Classic", 1.99)
+  override def availableSandwiches(): List[Sandwich] = List(sandwich)
+}
+
 
 class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
 
@@ -58,5 +64,21 @@ class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
       contentAsString(result) must include("Please choose a sandwich")
       contentAsString(result) must not include("Sorry, we don't have any sandwiches")
     }
+
+    "show a sandwich description and price when there is one sandwich " in {
+      val oneSandwichService = OneSandwichService
+      val oneSarnieController = new SandwichController {
+        val sandwichService = oneSandwichService
+      }
+      val result = oneSarnieController.sandwiches()(FakeRequest(GET, "foo"))
+      status(result) mustBe OK
+      contentAsString(result) must include("Are you hungry?")
+      contentAsString(result) must include("Please choose a sandwich")
+      contentAsString(result) must not include("Sorry, we don't have any sandwiches")
+      contentAsString(result) must include("Peas Pudding")
+      contentAsString(result) must include("Tasty Classic")
+      contentAsString(result) must include("£1.99")
+    }
   }
 }
+

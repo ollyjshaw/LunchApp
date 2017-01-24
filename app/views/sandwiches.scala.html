@@ -5,4 +5,9 @@
   <p>Sorry, we don't have any sandwiches</p>
 } else {
   <p>Please choose a sandwich</p>
+  <ul>
+      @for(s <- sandwiches) {
+        <li>@s.name, @s.description, £@s.price</li>
+      }
+  </ul>
 }
