@@ -1,7 +1,7 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
-import services.SandwichService
+import services.{InterimSandwichService, SandwichService}
 
 trait SandwichController extends Controller {
 
@@ -13,5 +13,5 @@ trait SandwichController extends Controller {
 }
 
 object SandwichController extends SandwichController {
-  val sandwichService = SandwichService
+  val sandwichService = InterimSandwichService
 }
