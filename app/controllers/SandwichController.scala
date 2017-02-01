@@ -1,10 +1,18 @@
 package controllers
 
 import play.api.mvc.{Action, Controller}
+import services.SandwichService
 
-object SandwichController extends Controller {
+trait SandwichController extends Controller {
+
+  def sandwichService : SandwichService
 
   def sandwiches = Action {
-    Ok(views.html.sandwiches())
+    val availableSarnies = sandwichService.allSandwiches
+    Ok(views.html.sandwiches(availableSarnies))
   }
+}
+
+object SandwichController extends SandwichController {
+  override def sandwichService: SandwichService = SandwichService
 }
