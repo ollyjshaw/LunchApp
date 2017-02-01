@@ -1,12 +1,13 @@
 @(sandwiches: List[Sandwich])
+
 <p>Are you hungry?</p>
 @if(sandwiches.isEmpty){
   <p>Sorry, we're sold out</p>
 } else {
-<p>Please choose a sandwich</p>
-<ul>
+  <p>Please choose a sandwich</p>
+  <ul>
     @for(s <- sandwiches) {
           <li>@s.name, @s.description, £@s.price</li>
     }
-</ul>
+  </ul>
 }
