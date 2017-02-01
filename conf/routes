@@ -7,6 +7,8 @@ GET     /                           @controllers.HomeController.index
 
 GET     /home                       @controllers.LunchAppController.home
 
+GET     /sandwiches                 controllers.SandwichController.sandwiches
+
 GET     /landing                    controllers.HomePageController.land
 
 # An example controller showing how to use dependency injection
