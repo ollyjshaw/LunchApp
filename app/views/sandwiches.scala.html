@@ -1,13 +1,112 @@
 @(sandwiches: List[Sandwich])
 
-<p>Are you hungry?</p>
-@if(sandwiches.isEmpty){
-  <p>Sorry, we're sold out</p>
-} else {
-  <p>Please choose a sandwich</p>
-  <ul>
-    @for(s <- sandwiches) {
-          <li>@s.name, @s.description, £@s.price</li>
-    }
+
+@orderMore = {
+<div data-add-remove
+     data-max="5"
+     data-can-delete="true"
+     data-add-btn-text="Add sandwich"
+     data-delete-btn-text="Delete sandwich"
+     data-template-item="data-template">
+
+  <ul class="add-remove__list" data-add-remove-list>
+    <li class="add-remove__item--small" data-add-remove-item data-template>
+      <input name="sandwiches[]"
+             type="text"
+             class="form-input input--medium"
+             data-add-remove-input />
+    </li>
   </ul>
+
+</div>
+}
+
+@main("Are you hungry?") {
+  @if(sandwiches.isEmpty){
+<div class="notice-banner">
+  <div class="notice-banner__wrapper">
+    <h3 class="notice-banner__content">Sorry, we're sold out at the moment</h3>
+  </div>
+</div>
+
+
+</br>
+<h2>Request a sandwich for when we get stock!</h2>
+
+@orderMore
+
+  } else {
+<h1>Your order</h1>
+  <p>You picked the following sandwiches:</p>
+
+
+<div data-tabs>
+  <ul class="tabs-nav" role="tablist">
+    <li id="tab1" role="tab"
+        data-tab-link="tab1"
+        aria-selected="true"
+        aria-controls="tabContent1">
+        <span class="tabs-nav__tab tabs-nav__tab--active"
+              href="#">Sandwiches</span>
+    </li>
+    <li id="tab2" role="tab"
+        data-tab-link="tab2"
+        aria-selected="false"
+        aria-controls="tabContent2">
+      <a class="tabs-nav__tab" href="#">Suggest a new sandwich</a>
+    </li>
+  </ul>
+  <ul>
+    <li id="tabContent1"
+        data-tab-content="tab1"
+        class="tab-content"
+        role="tabpanel"
+        aria-labelledby="tab1">
+      <p class="tab-content__first">
+
+        <h2>You selected the following sandwiches</h2>
+
+        <ul class="list--ticks">
+          @for(s <- sandwiches) {
+          <li>@s.name, @s.description, £@s.price</li>
+          }
+        </ul>
+
+        </br>
+
+        <p>More sandwiches! (as a select)</p>
+        <select class="select" name="example_select_input">
+          @for((s, i) <- sandwiches.zipWithIndex) {
+          <option value="@i">@s.name: £@s.price</option>
+          }
+        </select>
+
+      </p>
+    </li>
+    <li id="tabContent2"
+        data-tab-content="tab2"
+        class="tab-content"
+        role="tabpanel"
+        aria-labelledby="tab2">
+      <p class="tab-content__first">
+
+      <h2>Not what you wanted? Suggest a new Sandwich!</h2>
+
+      <form action="#" method="post">
+
+        @orderMore
+
+        <div class="form-field form-field--submit">
+          <button class="button" type="submit">Send</button>
+        </div>
+
+      </form>
+
+      </p>
+    </li>
+  </ul>
+</div>
+
+
+  }
 }
