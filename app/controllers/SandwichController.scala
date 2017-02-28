@@ -8,6 +8,7 @@ trait SandwichController extends Controller {
 
   def sandwichService : SandwichService
 
+  //see https://www.playframework.com/documentation/2.5.x/ScalaAsync
   def sandwiches = Action.async {
     val availableSarnies = sandwichService.allSandwiches
     availableSarnies.map( list => {
