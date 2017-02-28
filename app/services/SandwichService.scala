@@ -8,7 +8,7 @@ import scala.concurrent.{Await, Future}
 import scala.concurrent.duration._
 
 trait SandwichService {
-   def allSandwiches : List[Sandwich]
+   def allSandwiches : Future[List[Sandwich]]
 }
 
 object ConnectedSandwichService extends SandwichService {
@@ -19,20 +19,20 @@ object ConnectedSandwichService extends SandwichService {
     override val hooks = NoneRequired
   }
 
-  override def allSandwiches: List[Sandwich] = {
+  override def allSandwiches: Future[List[Sandwich]] = {
     implicit val hc = HeaderCarrier()
 
-    val future = http.GET[List[Sandwich]](url)
-    Await.result(future, 5 seconds)
+    http.GET[List[Sandwich]](url)
   }
 
 }
 
 object SandwichService extends SandwichService {
   //TODO, this is a pretty basic implementation!
-  override def allSandwiches: List[Sandwich] = List(
+  import play.api.libs.concurrent.Execution.Implicits.defaultContext
+  override def allSandwiches: Future[List[Sandwich]] = Future(List(
 
     Sandwich(name = "Ham", description = "Ham!", price = 5.62)
 
-  )
+  ))
 }
