@@ -6,6 +6,7 @@ import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SandwichService
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.concurrent.Future
 
@@ -94,17 +95,17 @@ class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
 }
 
 object NoSandwichService extends SandwichService {
-  override def allSandwiches: List[Sandwich] = List()
+  override def allSandwiches: Future[List[Sandwich]] = Future(List())
 }
 
 object OneSandwichService extends SandwichService {
   val sandwich = new Sandwich("Ham", "Porky", 1.55)
-  override def allSandwiches: List[Sandwich] = List(sandwich)
+  override def allSandwiches: Future[List[Sandwich]] = Future(List(sandwich))
 }
 
 object TwoSandwichService extends SandwichService {
   val sandwich1 = new Sandwich("Cheese", "Cheesy", 1.99)
   val sandwich2 = new Sandwich("Ham", "Porky", 1.55)
 
-  override def allSandwiches: List[Sandwich] = List(sandwich1,sandwich2)
+  override def allSandwiches: Future[List[Sandwich]] = Future(List(sandwich1,sandwich2))
 }
