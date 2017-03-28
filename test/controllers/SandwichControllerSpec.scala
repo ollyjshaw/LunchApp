@@ -7,6 +7,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import services.SandwichService
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import uk.gov.hmrc.play.http.Upstream5xxResponse
 
 import scala.concurrent.Future
 
@@ -91,6 +92,20 @@ class SandwichControllerSpec extends PlaySpec with OneAppPerSuite {
 
     }
 
+    "Display a nice error message when the server returns 5xx" in {
+
+      val erroringService = ErrorSandwichService
+      val controller = new SandwichController {
+        val sandwichService = erroringService
+      }
+
+      val result = controller.sandwiches()(FakeRequest(GET, "foo"))
+      status(result) mustBe OK
+
+      contentAsString(result) must include ("Sorry there was an error")
+
+    }
+
   }
 }
 
@@ -108,4 +123,8 @@ object TwoSandwichService extends SandwichService {
   val sandwich2 = new Sandwich("Ham", "Porky", 1.55)
 
   override def allSandwiches: Future[List[Sandwich]] = Future(List(sandwich1,sandwich2))
+}
+
+object ErrorSandwichService extends SandwichService {
+  override def allSandwiches: Future[List[Sandwich]] = return Future.failed( new Upstream5xxResponse("oops", 500, 500) )
 }
